@@ -5,7 +5,7 @@ export const handler = async (event: any, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false
   await loadParameters()
   return {
-    value: config['/dev/key1'],
+    value: config.values['/dev/key1'],
     success: true,
   }
 }

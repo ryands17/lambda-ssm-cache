@@ -1,22 +1,26 @@
 import { SSM } from 'aws-sdk'
 import ms from 'ms'
 
+type Config = {
+  values: Record<string, string | undefined>
+  expiryDate?: Date
+}
+
 const ssm = new SSM()
-export let config = {} as Record<string, string | undefined>
-let expiryDate: Date
+export let config: Config = { values: {} }
 
 export const loadParameters = async ({
   expiryTime: cacheDuration = '1h',
 }: {
   expiryTime?: string
 } = {}) => {
-  if (!expiryDate) {
-    expiryDate = new Date(Date.now() + ms(cacheDuration))
+  if (!config.expiryDate) {
+    config.expiryDate = new Date(Date.now() + ms(cacheDuration))
   }
   if (isConfigNotEmpty() && !hasCacheExpired()) return
 
   console.log('[Cost]: API called')
-  config = {}
+  config.values = {}
   const { Parameters = [] } = await ssm
     .getParametersByPath({
       Path: '/dev',
@@ -24,10 +28,11 @@ export const loadParameters = async ({
     .promise()
 
   for (let param of Parameters) {
-    if (param.Name) config[param.Name] = param.Value
+    if (param.Name) config.values[param.Name] = param.Value
   }
 }
 
-const hasCacheExpired = () => new Date() > expiryDate
+const hasCacheExpired = () =>
+  config.expiryDate && new Date() > config.expiryDate
 
-const isConfigNotEmpty = () => Object.keys(config).length
+const isConfigNotEmpty = () => Object.keys(config.values).length
