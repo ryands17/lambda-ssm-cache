@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from '@aws-cdk/core';
-import { LambdaSsmStack } from '../lib/lambda-ssm-stack';
+import 'source-map-support/register'
+import * as cdk from '@aws-cdk/core'
+import { LambdaSsmStack } from '../lib/lambda-ssm-stack'
 
-const app = new cdk.App();
-new LambdaSsmStack(app, 'LambdaSsmStack');
+const app = new cdk.App()
+new LambdaSsmStack(app, 'LambdaSsmStack', {
+  env: { region: app.node.tryGetContext('region') },
+})
