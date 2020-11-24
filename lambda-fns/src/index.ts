@@ -1,7 +1,27 @@
 import { Context } from 'aws-lambda'
+import { SSM } from 'aws-sdk'
+
+const ssm = new SSM()
+let cache = {} as any
+
+const getParameters = async () => {
+  if (Object.keys(cache).length) return
+
+  console.log('[Cost]: API called')
+  const { Parameters } = await ssm
+    .getParametersByPath({
+      Path: '/dev',
+    })
+    .promise()
+
+  for (let param of Parameters || []) {
+    if (param.Name) cache[param.Name] = param.Value
+  }
+}
 
 export const handler = async (event: any, context: Context) => {
-  console.log(JSON.stringify(event, null, 2))
+  await getParameters()
+  console.log(JSON.stringify(cache))
   context.callbackWaitsForEmptyEventLoop = false
   return {
     id: uuidv4(),
