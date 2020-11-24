@@ -11,13 +11,13 @@ export class LambdaSsmStack extends cdk.Stack {
     super(scope, id, props)
 
     // Random Parameter Store variables
-    const param = new ssm.StringParameter(this, 'dev-key1', {
+    new ssm.StringParameter(this, 'dev-key1', {
       parameterName: '/dev/key1',
       stringValue: 'value1',
     })
 
     // Lambda function to test with
-    const handler = new lambda.Function(this, 'simpleFn', {
+    const handler = new lambda.Function(this, 'fetchParams', {
       runtime: lambda.Runtime.NODEJS_12_X,
       code: lambda.Code.fromAsset('lambda-fns/assets/assets.zip'),
       handler: `${lambdaPrefix}/index.handler`,
