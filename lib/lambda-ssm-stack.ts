@@ -23,6 +23,9 @@ export class LambdaSsmStack extends cdk.Stack {
       handler: `${lambdaPrefix}/index.handler`,
       memorySize: 512,
       logRetention: logs.RetentionDays.ONE_WEEK,
+      environment: {
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      },
     })
 
     // Allow Lambda to fetch from Paramter Store
