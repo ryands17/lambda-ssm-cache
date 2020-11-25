@@ -10,7 +10,7 @@ export class LambdaSsmStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props)
 
-    // Random Parameter Store variables
+    // Random Parameter Store variable
     new ssm.StringParameter(this, 'dev-key1', {
       parameterName: '/dev/key1',
       stringValue: 'value1',
@@ -25,6 +25,7 @@ export class LambdaSsmStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_WEEK,
     })
 
+    // Allow Lambda to fetch from Paramter Store
     handler.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,

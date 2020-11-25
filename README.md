@@ -1,6 +1,6 @@
 # SSM Paramter Store caching with Lambda
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The setup is inspired by [this](https://theburningmonk.com/2017/09/you-should-use-ssm-parameter-store-over-lambda-env-variables/) blogpost.
 
 ## Steps
 
