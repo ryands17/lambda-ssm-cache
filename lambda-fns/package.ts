@@ -14,33 +14,51 @@ const filesToPackage = [
 const directory = join(__dirname, 'assets')
 
 const buildAndCopyFiles = async () => {
-  await mkdirp(directory)
-  await execAs('yarn build')
+  try {
+    console.log('*** Building TS and creating assets directory ***')
+    await mkdirp(directory)
+    await execAs('yarn build')
 
-  return Promise.all(filesToCopy.map(file => copy(file, join(directory, file))))
+    return Promise.all(
+      filesToCopy.map(file => copy(file, join(directory, file)))
+    )
+  } catch (e) {
+    throw Error(`[buildAndCopyFiles]: ${e?.stack}`)
+  }
 }
 
-const installProductionDeps = () =>
-  execAs('yarn install --production', { cwd: directory })
+const installProductionDeps = () => {
+  try {
+    console.log(`*** Installing production dependencies in ${directory} ***`)
+    return execAs('yarn install --production', { cwd: directory })
+  } catch (e) {
+    throw Error(`[installProductionDeps]: ${e?.stack}`)
+  }
+}
 
 const archiveFiles = () => {
-  const output = createWriteStream(join(directory, 'assets.zip'))
-  const archive = archiver('zip', {
-    zlib: { level: 9 },
-  })
-  archive.pipe(output)
+  try {
+    console.log('*** Creating archive of files and packages ***')
+    const output = createWriteStream(join(directory, 'assets.zip'))
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    })
+    archive.pipe(output)
 
-  archive.on('error', err => {
-    throw err
-  })
+    archive.on('error', err => {
+      throw err
+    })
 
-  for (let file of filesToPackage) {
-    const name = `assets/${file.name}`
-    if (file.type === 'folder') {
-      archive.directory(name, file.name)
-    } else archive.file(name, { name: file.name })
+    for (let file of filesToPackage) {
+      const name = `assets/${file.name}`
+      if (file.type === 'folder') {
+        archive.directory(name, file.name)
+      } else archive.file(name, { name: file.name })
+    }
+    return archive.finalize()
+  } catch (e) {
+    throw Error(`[archiveFiles]: ${e?.stack}`)
   }
-  return archive.finalize()
 }
 
 const main = async () => {
