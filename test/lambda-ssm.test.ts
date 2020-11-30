@@ -24,7 +24,7 @@ test('The Lambda function with the correct parameters and log retention', () => 
       Code: {
         S3Bucket: {},
       },
-      Handler: 'dist/index.handler',
+      Handler: 'index.handler',
       Role: {},
       Runtime: 'nodejs12.x',
       MemorySize: 512,

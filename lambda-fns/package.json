@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Lambda functions",
   "scripts": {
-    "build": "tsc",
-    "package": "ts-node package.ts"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Ryan",
@@ -13,16 +12,11 @@
     "ms": "^2.1.2"
   },
   "devDependencies": {
-    "@types/archiver": "^5.1.0",
     "@types/aws-lambda": "^8.10.64",
-    "@types/fs-extra": "^9.0.4",
     "@types/ms": "^0.7.31",
     "@types/node": "^14.14.9",
-    "archiver": "^5.1.0",
     "aws-lambda": "^1.0.6",
     "aws-sdk": "^2.798.0",
-    "fs-extra": "^9.0.1",
-    "ts-node": "^9.0.0",
     "typescript": "^4.1.2",
     "typesync": "^0.8.0"
   }

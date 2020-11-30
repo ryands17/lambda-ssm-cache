@@ -1,10 +1,12 @@
+import { join } from 'path'
 import * as cdk from '@aws-cdk/core'
 import * as lambda from '@aws-cdk/aws-lambda'
+import * as ln from '@aws-cdk/aws-lambda-nodejs'
 import * as ssm from '@aws-cdk/aws-ssm'
 import * as iam from '@aws-cdk/aws-iam'
 import * as logs from '@aws-cdk/aws-logs'
 
-const lambdaPrefix = 'dist'
+const lambdaDir = join(__dirname, '..', 'lambda-fns')
 
 export class LambdaSsmStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
@@ -17,15 +19,15 @@ export class LambdaSsmStack extends cdk.Stack {
     })
 
     // Lambda function to test with
-    const handler = new lambda.Function(this, 'fetchParams', {
-      runtime: lambda.Runtime.NODEJS_12_X,
-      code: lambda.Code.fromAsset('lambda-fns/assets/assets.zip'),
-      handler: `${lambdaPrefix}/index.handler`,
-      memorySize: 512,
+    const handler = new ln.NodejsFunction(this, 'fetchParams', {
       logRetention: logs.RetentionDays.ONE_WEEK,
-      environment: {
-        AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      },
+      runtime: lambda.Runtime.NODEJS_12_X,
+      memorySize: 512,
+      handler: 'handler',
+      entry: join(lambdaDir, 'src', 'index.ts'),
+      depsLockFilePath: join(lambdaDir, 'yarn.lock'),
+      nodeModules: ['ms'],
+      sourceMap: true,
     })
 
     // Allow Lambda to fetch from Paramter Store
