@@ -32,4 +32,4 @@ jobs:
           (cd lambda-fns && yarn --frozen-lockfile)
 
       - name: Run Tests
-        run: ./.github/test.sh
+        run: yarn test --coverage --maxWorkers=2
