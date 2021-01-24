@@ -9,7 +9,7 @@
   "author": "Ryan",
   "license": "ISC",
   "dependencies": {
-    "ms": "2.1.2"
+    "ms": "2.1.3"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.71",
