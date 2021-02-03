@@ -26,8 +26,10 @@ export class LambdaSsmStack extends cdk.Stack {
       handler: 'handler',
       entry: join(lambdaDir, 'src', 'index.ts'),
       depsLockFilePath: join(lambdaDir, 'yarn.lock'),
-      nodeModules: ['ms'],
-      sourceMap: true,
+      bundling: {
+        nodeModules: ['ms'],
+        sourceMap: true,
+      },
     })
 
     // Allow Lambda to fetch from Paramter Store
