@@ -26,7 +26,7 @@ test('The Lambda function with the correct parameters and log retention', () => 
       },
       Handler: 'index.handler',
       Role: {},
-      Runtime: 'nodejs12.x',
+      Runtime: 'nodejs14.x',
       MemorySize: 512,
     })
   )

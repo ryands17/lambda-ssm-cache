@@ -21,15 +21,10 @@ export class LambdaSsmStack extends cdk.Stack {
     // Lambda function to test with
     const handler = new ln.NodejsFunction(this, 'fetchParams', {
       logRetention: logs.RetentionDays.ONE_WEEK,
-      runtime: lambda.Runtime.NODEJS_12_X,
+      runtime: lambda.Runtime.NODEJS_14_X,
       memorySize: 512,
       handler: 'handler',
-      entry: join(lambdaDir, 'src', 'index.ts'),
-      depsLockFilePath: join(lambdaDir, 'yarn.lock'),
-      bundling: {
-        nodeModules: ['ms'],
-        sourceMap: true,
-      },
+      entry: join(lambdaDir, 'index.ts'),
     })
 
     // Allow Lambda to fetch from Paramter Store
