@@ -25,6 +25,8 @@ export class LambdaSsmStack extends cdk.Stack {
       memorySize: 512,
       handler: 'handler',
       entry: join(lambdaDir, 'index.ts'),
+      environment: { NODE_OPTIONS: '--enable-source-maps' },
+      bundling: { sourceMap: true },
     })
 
     // Allow Lambda to fetch from Paramter Store

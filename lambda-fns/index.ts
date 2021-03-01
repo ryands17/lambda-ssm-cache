@@ -3,7 +3,8 @@ import { config, loadParameters } from './config'
 
 export const handler = async (event: any, context: Context) => {
   context.callbackWaitsForEmptyEventLoop = false
-  await loadParameters()
+  // await loadParameters()
+  throw Error('error occured!')
   return {
     value: config.values['/dev/key1'],
     success: true,
