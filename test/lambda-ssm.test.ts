@@ -4,7 +4,27 @@ import {
   haveResourceLike,
 } from '@aws-cdk/assert'
 import * as cdk from '@aws-cdk/core'
+import { Code, CodeConfig } from '@aws-cdk/aws-lambda'
 import { LambdaSsmStack } from '../lib/lambda-ssm-stack'
+
+let fromAssetMock: jest.SpyInstance
+
+beforeAll(() => {
+  fromAssetMock = jest.spyOn(Code, 'fromAsset').mockReturnValue({
+    isInline: false,
+    bind: (): CodeConfig => {
+      return {
+        s3Location: {
+          bucketName: 'my-bucket',
+          objectKey: 'my-key',
+        },
+      }
+    },
+    bindToResource: () => {
+      return
+    },
+  } as any)
+})
 
 test('The SSM Parameter with the correct values', () => {
   const stack = createStack()
@@ -21,11 +41,15 @@ test('The Lambda function with the correct parameters and log retention', () => 
   const stack = createStack()
   expectCDK(stack).to(
     haveResourceLike('AWS::Lambda::Function', {
-      Code: {
-        S3Bucket: {},
-      },
+      Code: {},
       Handler: 'index.handler',
       Role: {},
+      Environment: {
+        Variables: {
+          NODE_OPTIONS: '--enable-source-maps',
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        },
+      },
       Runtime: 'nodejs14.x',
       MemorySize: 512,
     })
@@ -61,3 +85,7 @@ const createStack = () => {
   const stack = new LambdaSsmStack(app, 'SSMLambdaStack')
   return stack
 }
+
+afterAll(() => {
+  fromAssetMock?.mockRestore()
+})
