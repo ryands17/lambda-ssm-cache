@@ -14,12 +14,12 @@
     "postinstall": "husky install"
   },
   "devDependencies": {
-    "@aws-cdk/assert": "1.126.0",
+    "@aws-cdk/assert": "1.130.0",
     "@types/aws-lambda": "8.10.85",
     "@types/jest": "27.0.2",
     "@types/ms": "0.7.31",
     "@types/node": "16.10.2",
-    "aws-cdk": "1.126.0",
+    "aws-cdk": "1.130.0",
     "aws-lambda": "1.0.7",
     "aws-sdk": "2.1003.0",
     "esbuild": "0.13.12",
@@ -32,10 +32,10 @@
     "typescript": "4.4.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda": "1.126.0",
-    "@aws-cdk/aws-lambda-nodejs": "1.126.0",
-    "@aws-cdk/aws-ssm": "1.126.0",
-    "@aws-cdk/core": "1.126.0",
+    "@aws-cdk/aws-lambda": "1.130.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.130.0",
+    "@aws-cdk/aws-ssm": "1.130.0",
+    "@aws-cdk/core": "1.130.0",
     "ms": "2.1.3",
     "source-map-support": "0.5.20"
   },
