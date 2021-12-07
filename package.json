@@ -37,7 +37,7 @@
     "@aws-cdk/aws-ssm": "1.131.0",
     "@aws-cdk/core": "1.131.0",
     "ms": "2.1.3",
-    "source-map-support": "0.5.20"
+    "source-map-support": "0.5.21"
   },
   "prettier": {
     "semi": false,
